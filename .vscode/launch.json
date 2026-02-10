@@ -1,0 +1,41 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "AprilTag: 图片1 (155134)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--tag-size",
+                "0.11",
+                "--image",
+                "images/camera_camera_realsense_01_20260210_155134.jpg",
+                "--calib",
+                "calibration/realsense_calib.npz"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            }
+        },
+        {
+            "name": "AprilTag: 图片2 (155317)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--tag-size",
+                "0.11",
+                "--image",
+                "images/camera_camera_realsense_01_20260210_155317.jpg",
+                "--calib",
+                "calibration/realsense_calib.npz"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            }
+        }
+    ]
+}
