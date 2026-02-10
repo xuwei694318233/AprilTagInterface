@@ -32,9 +32,9 @@ def main():
                        help='摄像头ID（图片模式不需要）')
     parser.add_argument('--output', '-o', type=str,
                        help='保存结果图片路径')
-    
+
     args = parser.parse_args()
-    
+
     # 加载相机内参
     if Path(args.calib).exists():
         camera_matrix, dist_coeffs = load_calibration(args.calib)
@@ -44,24 +44,24 @@ def main():
         # 根据常见分辨率预设
         camera_matrix = np.array([[600, 0, 320], [0, 600, 240], [0, 0, 1]], dtype=np.float32)
         dist_coeffs = np.zeros(4)
-    
+
     print(f"内参矩阵:\n{camera_matrix}")
-    
+
     # 初始化检测器
     detector = AprilTagDetector(args.tag_size, camera_matrix, dist_coeffs)
-    
+
     # 图片模式
     if args.image:
         image = cv2.imread(args.image)
         if image is None:
             print(f"错误: 无法读取图片 {args.image}")
             return
-        
+
         print(f"图片尺寸: {image.shape[1]}x{image.shape[0]}")
-        
+
         # 检测
         results = detector.detect(image)
-        
+
         print(f"\n检测到 {len(results)} 个 AprilTag:")
         for i, r in enumerate(results):
             print(f"\n--- Tag {i+1} ---")
@@ -70,15 +70,15 @@ def main():
             print(f"平移向量 (相机坐标系): [{r['tvec'][0]:.4f}, {r['tvec'][1]:.4f}, {r['tvec'][2]:.4f}]")
             print(f"欧拉角 (度): 滚转={r['euler'][0]:.2f}, 俯仰={r['euler'][1]:.2f}, 偏航={r['euler'][2]:.2f}")
             print(f"图像中心: ({r['center'][0]:.1f}, {r['center'][1]:.1f})")
-        
+
         # 可视化
         vis = detector.draw_detections(image, results)
-        
+
         # 添加文字信息
         info_text = f"Tags: {len(results)} | Tag size: {args.tag_size*100:.1f}cm"
         cv2.putText(vis, info_text, (10, 30), 
                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
-        
+
         # 保存或显示
         if args.output:
             cv2.imwrite(args.output, vis)
@@ -92,7 +92,7 @@ def main():
             print("\n按任意键关闭窗口...")
             cv2.waitKey(0)
             cv2.destroyAllWindows()
-        
+
         return
 
     # 摄像头模式（原有代码）
@@ -101,14 +101,14 @@ def main():
     if not cap.isOpened():
         print("无法打开摄像头")
         return
-    
+
     print("按 'q' 退出，'s' 保存截图")
-    
+
     while True:
         ret, frame = cap.read()
         if not ret:
             continue
-        
+
         results = detector.detect(frame)
         vis = detector.draw_detections(frame, results)
         

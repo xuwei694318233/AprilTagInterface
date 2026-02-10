@@ -2,6 +2,24 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "AprilTag: 选择图片",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--tag-size",
+                "0.11",
+                "--image",
+                "${input:imagePath}",
+                "--calib",
+                "calibration/realsense_calib.npz"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            }
+        },
+        {
             "name": "AprilTag: 图片1 (155134)",
             "type": "debugpy",
             "request": "launch",
@@ -36,6 +54,32 @@
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/src"
             }
+        },
+        {
+            "name": "AprilTag: 摄像头模式",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--tag-size",
+                "0.11",
+                "--camera",
+                "0",
+                "--calib",
+                "calibration/realsense_calib.npz"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "imagePath",
+            "description": "选择图片文件",
+            "default": "images/",
+            "type": "promptString"
         }
     ]
 }
